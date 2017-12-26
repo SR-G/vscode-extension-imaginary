@@ -1,0 +1,8 @@
+node_modules
+out
+test
+.eslintrc.json
+.vscode-test/
+.vsix
+.vsix
+.vscode
