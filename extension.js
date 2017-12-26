@@ -24,6 +24,18 @@ const createDirectories = function (targetDir) {
     }, initDir);    
 }
 
+const replaceTokens = function(s) {
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    return s.replace('\${month}', padZero(month, 2, "0")).replace('\${year}', year).replace('\${day}', padZero(day, 2, "0"));
+}
+
+const sanitizePath = function(s) {
+    return s.replace(/\\/g, "/").replace(/(?!^)\/\//g, "/");
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -51,18 +63,16 @@ function activate(context) {
         
         // read configuration
         const configuration = vscode.workspace.getConfiguration("imaginary"); 
-        const baseUrl = configuration.get("baseurl", "http://192.168.8.4:9000");
+        const baseUrl = configuration.get("baseurl", "http://127.0.0.1:9000");
         const action = configuration.get("operation", "thumbnail");
         const extension = configuration.get('format', 'png');
         const height = configuration.get('size', '200');
         var destination = configuration.get('destination', '');
+        var markdownPath = configuration.get('markdown-path', destination)
 
         // allow destination to have tokens like ${month}, ${year}, ${day} (usefull for blogging systems)
-        const now = new Date();
-        const day = now.getDate();
-        const month = now.getMonth() + 1;
-        const year = now.getFullYear();
-        destination = destination.replace('\${month}', padZero(month, 2, "0")).replace('\${year}', year).replace('\${day}', padZero(day, 2, "0"));
+        destination = replaceTokens(destination);
+        markdownPath = replaceTokens(markdownPath);
 
         // query parameters : todo one day, have a nicer system allowing to inject keys from configuration
         const qs = "?type=" + extension + "&height=" + height + "&url=" + text
@@ -72,15 +82,15 @@ function activate(context) {
         var imageName =  text.split("/").pop();
         imageName = imageName.substr(0, imageName.lastIndexOf(".")) + "." + extension;
         var dir = `${folderName}/${destination}`
-        dir = dir.replace(/\\/g, "/").replace(/\/\//g, "/");
+        dir = sanitizePath(dir);
         createDirectories(dir);
         var dest = `${folderName}/${destination}/${imageName}`;
-        dest = dest.replace(/\\/g, "/").replace(/\/\//g, "/");
+        dest = sanitizePath(dest);
 
         // execute the request + image saving and notify user if sucessful / error
         var stream = request(url).on('error', function(err) {
             console.log(err)
-            vscode.window.showInformationMessage('Error on conversion from url : ' + url + '');  
+            vscode.window.showErrorMessage('Error on conversion from url : ' + url + '');  
           }).on('response', function(response) {
             console.log(response.statusCode) // 200
             console.log(response.headers['content-type']) // 'image/png'
@@ -95,9 +105,9 @@ function activate(context) {
         // replace the initialy selected text with the markdown image tag containing the path to the saved image
         // todo : would be nice to have a customized file name, but would need to have a second parameter somewhere (in addition to the selected URL)
         editor.edit(function (builder) {
-            var s = destination
+            var s = markdownPath
             if (s == "") {
-                s = "./";
+                s = "/";
             }
             builder.replace(selection, "![](" + s + imageName + ")");
         });

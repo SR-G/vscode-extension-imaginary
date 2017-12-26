@@ -5,3 +5,4 @@ test
 .vscode-test/
 .vsix
 .vsix
+*.vsix
