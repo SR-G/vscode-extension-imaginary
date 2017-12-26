@@ -1,20 +1,16 @@
 # vscode-extension-imaginary README
 
-This is the README for your extension "vscode-extension-imaginary". After writing up a brief description, we recommend including the following sections.
+ VSCode extension allowing to create a thumbnail from a selected URL (through a remote Imaginary HTTP call) and to replace this selection with the corresponding markdown tag.
+
+ Imaginary is a HTTP micro-service allowing to execute some operations on image through HTTP requests, @see https://github.com/h2non/imaginary.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+To do.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+No extra requirements.
 
 ## Extension Settings
 
