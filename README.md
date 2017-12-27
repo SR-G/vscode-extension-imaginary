@@ -6,7 +6,7 @@
 
 ## Features
 
-![](vscode-extension-imaginary.gif)
+![](https://github.com/SR-G/vscode-extension-imaginary/raw/master/vscode-extension-imaginary.gif)
 
 ## Requirements
 
