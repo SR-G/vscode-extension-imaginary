@@ -35,7 +35,7 @@ This extension has to be configured, either on a global level or on a workspace 
     "imaginary.operation" : "thumbnail",
     "imaginary.parameters" : {
         "format" : "png",
-        "size" : "200",
+        "width" : "200",
     },
     "imaginary.destination" : "static/media/activity/${year}/${month}/",  
     "imaginary.markdown-path" : "/media/activity/${year}/${month}/",  
