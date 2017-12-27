@@ -74,8 +74,17 @@ function activate(context) {
         destination = replaceTokens(destination);
         markdownPath = replaceTokens(markdownPath);
 
-        // query parameters : todo one day, have a nicer system allowing to inject keys from configuration
-        const qs = "?type=" + extension + "&height=" + height + "&url=" + text
+        // query parameters
+        var parameters = configuration.get('parameters', {});
+        var sep = "?";
+        var qs = "";
+        for (var key in parameters) {
+            if (parameters.hasOwnProperty(key)) {
+                qs = qs + sep + key + "=" + parameters[key];
+            }
+            sep = "&";
+        }
+        qs = qs + sep + "url=" + text
 
         // final URL, image name, directory where image will be saved
         const url = `${baseUrl}/${action}${qs}`;

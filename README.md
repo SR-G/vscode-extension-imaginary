@@ -21,9 +21,11 @@ Allowed extension's configurations are :
 {
     "imaginary.baseurl" : "http://192.168.8.4:9000",
     "imaginary.operation" : "thumbnail",
-    "imaginary.format" : "png",
-    "imaginary.size" : "200",
-    "imaginary.destination" : "static/media/activity/${year}/${month}/",
+    "imaginary.parameters" : {
+        "format" : "png",
+        "size" : "200",
+    },
+    "imaginary.destination" : "static/media/activity/${year}/${month}/",  
     "imaginary.markdown-path" : "/media/activity/${year}/${month}/",  
 }
 ```
