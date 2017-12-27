@@ -1,8 +1,8 @@
 # `vscode-extension-imaginary` README
 
- VSCode extension allowing to create a thumbnail from a selected URL (through a remote Imaginary HTTP call), and to replace this selection with the corresponding markdown tag.
+ VSCode extension allowing to create a thumbnail from a selected URL (through a remote `Imaginary` HTTP call), and to replace this selection with the corresponding markdown tag.
 
- Imaginary is a HTTP micro-service allowing to execute some operations on image through HTTP requests, @see https://github.com/h2non/imaginary.
+ `Imaginary` is a HTTP micro-service allowing to execute some operations on images through HTTP requests (like "resize this image to 650 pixels wide and convert to PNG"), @see https://github.com/h2non/imaginary.
 
 ## Features
 
@@ -10,7 +10,7 @@
 
 ## Requirements
 
-You need a working Imaginary server deployed somewhere (same host, or another server (local or remote)).
+You need a working `Imaginary` server deployed somewhere (same host, or another server (local or remote)).
 
 May for example be started through `docker` with  :
 
@@ -20,7 +20,7 @@ docker run -d -p 9000:9000 --name imaginary h2non/imaginary -cors -gzip -enable-
 
 ## Extension Settings
 
-This extension has to be configured, either on a global level or on a workspace level (recommended, will allow different Imaginary usage per project).
+This extension has to be configured, either on a global level or on a workspace level (recommended - will allow one different Imaginary usage per project).
 
 - `baseurl` is the full HTTP url of the running `Imaginary` server (for example, "http://127.0.0.1:9000/" if `Imaginary` is running on localhost).
 - `operation` is the main operation that will be triggered. 
