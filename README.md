@@ -47,13 +47,20 @@ This extension has to be configured, either on a global level or on a workspace 
 **Packaging** : @see https://code.visualstudio.com/docs/extensions/publish-extension
 
 ```bash
+// first steps
 npm install -g vsce
-vsce package
+vsce ls
+```
+
+```bash
+// publication
 npm install
 vsce publish
 ```
 
-Install the extension either through `CTRL + SHIFT + P` > `Extensions : install from VSIX` or through `/c/Tools/vscode/1.19.0/code --install-extension vscode-extension-imaginary-0.0.1.vsix`
+**Testing the dev version** :
+
+Generate the extension through `vsce package`, then install it either through `CTRL + SHIFT + P` > `Extensions : install from VSIX` or through `/c/Tools/vscode/1.19.0/code --install-extension vscode-extension-imaginary-0.0.1.vsix`
 
 While developing, if needed, in order to retrieve `node_modules` under the installed folder, use :
 
