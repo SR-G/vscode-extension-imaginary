@@ -6,17 +6,29 @@
 
 ## Features
 
-To do.
+![](vscode-extension-imaginary.gif)
 
 ## Requirements
 
-No extra requirements.
+You need a working Imaginary server deployed somewhere (same host, or another server (local or remote)).
+
+May for example be started through `docker` with  :
+
+```bash
+docker run -d -p 9000:9000 --name imaginary h2non/imaginary -cors -gzip -enable-url-source -enable-auth-forwarding
+```
 
 ## Extension Settings
 
-Allowed extension's configurations are :
+This extension has to be configured, either on a global level or on a workspace level (recommended, will allow different Imaginary usage per project).
 
-```
+- `baseurl` is the full HTTP url of the running `Imaginary` server (for example, "http://127.0.0.1:9000/" if `Imaginary` is running on localhost).
+- `operation` is the main operation that will be triggered. 
+- `parameters` is a map for the various sub-parameters of this operation and have to be entered accordingly, @see [Imaginary documentation](https://github.com/h2non/imaginary#http-api).
+- `destination` is the path where the converted image will be stored, under the project root folder. Some tokens will be automatically replaced, for the now : `${year}`, `${month}`, `${day}` (may be useful for blogging systems)
+- `markdown-path` is the path that will be used in the markdown tag. May be different than destination (for example, for `hugo` blogs, statis fields will be stored in the `static/` sub-folder, but this level does not appear once the blog is published)
+
+```json
 // Place your settings in this file to overwrite default and user settings.
 {
     "imaginary.baseurl" : "http://192.168.8.4:9000",
@@ -34,13 +46,18 @@ Allowed extension's configurations are :
 
 **Packaging** : @see https://code.visualstudio.com/docs/extensions/publish-extension
 
-```
+```bash
 npm install -g vsce
 vsce package
 npm install
-npm run-script vscode:prepublish
 vsce publish
-/c/Tools/vscode/1.19.0/code --install-extension vscode-extension-imaginary-0.0.1.vsix
+```
+
+Install the extension either through `CTRL + SHIFT + P` > `Extensions : install from VSIX` or through `/c/Tools/vscode/1.19.0/code --install-extension vscode-extension-imaginary-0.0.1.vsix`
+
+While developing, if needed, in order to retrieve `node_modules` under the installed folder, use :
+
+```bash
 cd  ~/.vscode/extensions/SR-G.vscode-extension-imaginary-0.0.1
 npm install
 ```
