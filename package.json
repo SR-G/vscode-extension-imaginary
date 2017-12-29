@@ -2,7 +2,7 @@
     "name": "vscode-extension-imaginary",
     "displayName": "vscode-extension-imaginary",
     "description": " VSCode extension allowing to create a thumbnail from a selected URL (through a remote Imaginary HTTP call) and to replace this selection with the corresponding markdown tag.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "SR-G",
     "engines": {
         "vscode": "^1.19.0"
