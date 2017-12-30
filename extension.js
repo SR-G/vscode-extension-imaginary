@@ -44,11 +44,61 @@ function activate(context) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "vscode-extension-imaginary" is now active!');
 
+
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.thumbnailImage', function () {
-        // let folderName = path.dirname(vscode.workspace.rootPath);
+    let commandRenameMarkdownImage = vscode.commands.registerCommand('extension.renameMarkdownImage', function () {
+        const workspace0 = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : undefined;
+        const folderName = workspace0 ? workspace0.uri.fsPath : undefined;
+
+        var editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            return; // No open text editor
+        }
+
+        // selected text, will be used during the HTTP call
+        var selection = editor.selection;
+        var text = editor.document.getText(selection);
+        const configuration = vscode.workspace.getConfiguration("imaginary"); 
+        var destination = configuration.get('destination', '');
+        var markdownPath = configuration.get('markdown-path', destination);
+        destination = replaceTokens(destination);
+        markdownPath = replaceTokens(markdownPath);
+        var currentBasename = path.dirname(text);
+        var currentFileName = path.basename(text);
+
+        vscode.window.showInputBox({prompt: 'What should be the new name ?', value: currentFileName}).then(function(val) {
+            var currentLocation = sanitizePath(`${folderName}/${destination}/${currentFileName}`);
+            var newLocation = sanitizePath(`${folderName}/${destination}/${val}`);
+            if (!fs.existsSync(currentLocation)){
+                currentLocation = sanitizePath(`${folderName}/${markdownPath}/${currentFileName}`);
+                newLocation = sanitizePath(`${folderName}/${markdownPath}/${val}`);
+                if (!fs.existsSync(currentLocation)){
+                    vscode.window.showErrorMessage("Can't find current image anywhere : " + text + '');  
+                    return;
+                }
+            }
+
+            if (fs.existsSync(newLocation)) {
+                vscode.window.showErrorMessage('New file already found on disk : ' + val + '');  
+                return;
+            }
+
+            fs.rename(currentLocation, newLocation, function(err) {
+                if ( err ) { 
+                    console.log('ERROR: ' + err);
+                    vscode.window.showErrorMessage('Error on renaming to : ' + val + '');  
+                } else {
+                    editor.edit(function (builder) {
+                        builder.replace(selection, text.replace(currentFileName, val));
+                    });                    
+                }
+            });            
+        });
+    });
+
+    let commandImaginaryOperation = vscode.commands.registerCommand('extension.imaginaryOperation', function () {
         const workspace0 = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0] : undefined;
         const folderName = workspace0 ? workspace0.uri.fsPath : undefined;
         
@@ -122,7 +172,8 @@ function activate(context) {
         });
     });
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(commandImaginaryOperation);
+    context.subscriptions.push(commandRenameMarkdownImage);
 }
 exports.activate = activate;
 
