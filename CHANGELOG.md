@@ -3,5 +3,8 @@ All notable changes to the "vscode-extension-imaginary" extension will be docume
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## 0.0.4
+- Minor corrections about tokens not correctly padded with zeros
+
+## 0.0.1
 - Initial release
