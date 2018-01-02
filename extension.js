@@ -8,7 +8,9 @@ const request = require('request')
 
 const padZero = function (s, len, c){
     var c = c || '0';
-    while(s.length < len) s= c + s;
+    while(s.toString().length < len) {
+        s = c + s;
+    }
     return s;
 }
 
