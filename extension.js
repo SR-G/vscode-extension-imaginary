@@ -16,14 +16,16 @@ const padZero = function (s, len, c){
 
 const createDirectories = function (targetDir) {
     var sep = "/"; // path.sep
-    const initDir = path.isAbsolute(targetDir) ? sep : '';
-    targetDir.split(sep).reduce((parentDir, childDir) => {
-      const curDir = path.resolve(parentDir, childDir);
-      if (!fs.existsSync(curDir)){      
-        fs.mkdirSync(curDir);
-      }
-      return curDir;
-    }, initDir);    
+    if (!fs.existsSync(targetDir)){      
+        const initDir = path.isAbsolute(targetDir) ? sep : '';
+        targetDir.split(sep).reduce((parentDir, childDir) => {
+        const curDir = path.resolve(parentDir, childDir);
+        if (!fs.existsSync(curDir)){      
+            fs.mkdirSync(curDir);
+        }
+        return curDir;
+        }, initDir);    
+    }
 }
 
 const replaceTokens = function(s) {
